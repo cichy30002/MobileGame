@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
 {
     public MobileJoystickController controller;
     public Rigidbody2D rb;
+    public Stats stats;
     public float baseSpeed = 50f;
     public float boostCooldown = 3f;
     public float boostTime = 1f;
@@ -27,7 +28,11 @@ public class Movement : MonoBehaviour
         newVelocity *= Time.deltaTime;
         newVelocity *= _speed;
         rb.velocity = newVelocity;
-        if(newVelocity.magnitude >= 0.01f)transform.up = newVelocity;
+        if (newVelocity.magnitude >= 0.01f)
+        {
+            transform.up = newVelocity;
+            stats.Fuel -= stats.fuelCons * Time.deltaTime;
+        }
     }
 
     public void Boost()
