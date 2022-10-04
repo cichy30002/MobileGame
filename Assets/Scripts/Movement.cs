@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,7 +21,7 @@ public class Movement : MonoBehaviour
         ResetSpeed();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector2 newVelocity = new(controller.horizontalAxis, controller.verticalAxis);
         newVelocity *= Time.deltaTime;
