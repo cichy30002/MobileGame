@@ -21,11 +21,19 @@ public class Stats : MonoBehaviour
     private float _fuel;
     private int _points;
     private int _spareParts;
+    private bool _gameOver;
     public float Hp
     {
         get => _hp;
-        set { _hp = value;
+        set 
+        {
+            _hp = value;
             healthBar.value = _hp;
+            if (_hp <= 0f)
+            {
+                GameOver();
+                ExplosionVFX();
+            }
         }
     }
     public float Fuel
@@ -35,6 +43,7 @@ public class Stats : MonoBehaviour
         {
             _fuel = value;
             fuelBar.value = _fuel;
+            if(_fuel <= 0f) GameOver();
         } 
     }
     public int Points
@@ -64,7 +73,19 @@ public class Stats : MonoBehaviour
         Hp = startHp;
         Points = 0;
         SpareParts = 0;
-
+        _gameOver = false;
     }
-    
+
+    private void GameOver()
+    {
+        if (_gameOver) return;
+        _gameOver = true;
+        Debug.Log("game over");
+        FindObjectOfType<GameManager>().GameOver();
+    }
+
+    private void ExplosionVFX()
+    {
+        Debug.Log("boom");
+    }
 }

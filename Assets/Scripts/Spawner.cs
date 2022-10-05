@@ -68,7 +68,6 @@ public class Spawner : MonoBehaviour
     private bool EnoughObjects()
     {
         _hitObjects = Physics2D.OverlapBoxAll(_center, _size ,0f, layerMask);
-        Debug.Log(_hitObjects.Length);
         return _hitObjects.Length >= minObjects;
     }
 

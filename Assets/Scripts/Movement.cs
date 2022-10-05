@@ -23,6 +23,7 @@ public class Movement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (stats.Fuel <= 0f) return;
         Vector2 newVelocity = new(controller.horizontalAxis, controller.verticalAxis);
         newVelocity *= Time.deltaTime;
         newVelocity *= _speed;
