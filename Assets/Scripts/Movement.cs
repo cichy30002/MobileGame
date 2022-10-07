@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     public MobileJoystickController controller;
     public Rigidbody2D rb;
     public Stats stats;
+    public ParticleSystem fireParticle;
     public float baseSpeed = 50f;
     public float boostCooldown = 3f;
     public float boostTime = 1f;
@@ -39,14 +40,19 @@ public class Movement : MonoBehaviour
     {
         if (boostTime >= boostCooldown) Debug.LogError("boostTime >= boostCooldown!");
         if (Time.time < _cooldownTime) return;
+        
         _cooldownTime = Time.time + boostCooldown;
         _speed = baseSpeed * (1f + boostPower);
+        var emission = fireParticle.emission;
+        emission.rateOverTime = 80f;
         Invoke(nameof(ResetSpeed), boostTime);
     }
 
     private void ResetSpeed()
     {
         _speed = baseSpeed;
+        var emission = fireParticle.emission;
+        emission.rateOverTime = 50f;
     }
     
 }
