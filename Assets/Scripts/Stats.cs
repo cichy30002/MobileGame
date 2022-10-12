@@ -72,7 +72,7 @@ public class Stats : MonoBehaviour
         Fuel = startFuel;
         Hp = startHp;
         Points = 0;
-        SpareParts = 0;
+        SpareParts = 20;
         _gameOver = false;
     }
 

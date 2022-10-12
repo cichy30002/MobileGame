@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     public float gameOverVFXTime = 3f;
     public Image gameOverPanel;
     public TMP_Text gameOverText;
+
+    public void ResetTimeScale()
+    {
+        Time.timeScale = 1f;
+    }
     public void GameOver()
     {
         GameOverVFX();
