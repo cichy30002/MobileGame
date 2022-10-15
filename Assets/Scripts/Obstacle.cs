@@ -9,6 +9,8 @@ public class Obstacle : MonoBehaviour
     public float damage = 10f;
     public float speed = 30f;
     public Rigidbody2D rb;
+    public GameObject boomParticle;
+    public GameObject miniBoomParticle;
 
     private Vector2 _dir;
 
@@ -29,9 +31,22 @@ public class Obstacle : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
+            Instantiate(miniBoomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);
             Stats stats = col.gameObject.GetComponent<Stats>();
             stats.Hp -= damage;
             Destroy(gameObject);
+        }
+        if (col.gameObject.CompareTag("Barrel"))
+        {
+            Instantiate(boomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);
+            Destroy(col.gameObject);
+            Destroy(gameObject);
+        }
+
+        if (col.gameObject.CompareTag("SpareParts") || col.gameObject.CompareTag("DNA"))
+        {
+            Instantiate(miniBoomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);
+            Destroy(col.gameObject);
         }
     }
 

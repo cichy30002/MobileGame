@@ -10,16 +10,12 @@ public class Movement : MonoBehaviour
     public Rigidbody2D rb;
     public Stats stats;
     public ParticleSystem fireParticle;
-    public float baseSpeed = 50f;
-    public float boostCooldown = 3f;
-    public float boostTime = 1f;
-    public float boostPower = 0.5f;
     private float _speed = 50f;
     private float _cooldownTime = 0f;
 
     private void Start()
     {
-        ResetSpeed();
+        Invoke(nameof(ResetSpeed),0.05f);
     }
 
     void FixedUpdate()
@@ -38,19 +34,19 @@ public class Movement : MonoBehaviour
 
     public void Boost()
     {
-        if (boostTime >= boostCooldown) Debug.LogError("boostTime >= boostCooldown!");
+        if (stats.boostTime >= stats.boostCooldown) Debug.LogError("boostTime >= boostCooldown!");
         if (Time.time < _cooldownTime) return;
         
-        _cooldownTime = Time.time + boostCooldown;
-        _speed = baseSpeed * (1f + boostPower);
+        _cooldownTime = Time.time + stats.boostCooldown;
+        _speed = stats.baseSpeed * (1f + stats.boostPower);
         var emission = fireParticle.emission;
         emission.rateOverTime = 80f;
-        Invoke(nameof(ResetSpeed), boostTime);
+        Invoke(nameof(ResetSpeed), stats.boostTime);
     }
 
     private void ResetSpeed()
     {
-        _speed = baseSpeed;
+        _speed = stats.baseSpeed;
         var emission = fireParticle.emission;
         emission.rateOverTime = 50f;
     }

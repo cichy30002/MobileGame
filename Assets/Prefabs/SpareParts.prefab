@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2259065780480624982}
   m_Layer: 6
   m_Name: SpareParts
-  m_TagString: Untagged
+  m_TagString: SpareParts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

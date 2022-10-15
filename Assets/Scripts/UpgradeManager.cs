@@ -7,36 +7,46 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
     public Stats stats;
-    public List<Upgradable> upgradeables;
+    public List<Upgradeable> upgradeables;
 
     private void Start()
     {
-        foreach (var upgradable in upgradeables)
-        {
-            upgradable.currentPrice = upgradable.startPrice;
-        }
+        CalculatePrices();
 
         Time.timeScale = 0f;
     }
 
-    public Upgradable GetUpgradable(string statName)
+    public void CalculatePrices()
     {
-        return upgradeables.FirstOrDefault(upgradable => upgradable.statName == statName);
+        foreach (var upgradeable in upgradeables)
+        {
+            upgradeable.currentPrice = upgradeable.startPrice*(upgradeable.currentLevel + 1);
+        }
+    }
+    public Upgradeable GetUpgradeable(string statName)
+    {
+        return upgradeables.FirstOrDefault(upgradeable => upgradeable.statName == statName);
     }
     public void LevelUp(string statName)
     {
-        Upgradable upgradeable = GetUpgradable(statName);
+        Upgradeable upgradeable = GetUpgradeable(statName);
         stats.SpareParts -= upgradeable.currentPrice;
         upgradeable.currentLevel += 1;
-        upgradeable.currentPrice += upgradeable.startPrice;
+        upgradeable.currentPrice = upgradeable.startPrice*(upgradeable.currentLevel + 1);
     }
     [System.Serializable]
-    public class Upgradable
+    public class Upgradeable
     {
         public string statName;
         public int maxLevel;
         public int currentLevel;
         public int startPrice;
         [HideInInspector]public int currentPrice;
+        public float zeroLevelValue;
+        public float maxLevelValue;
+        public float Value()
+        {
+            return zeroLevelValue + (maxLevelValue - zeroLevelValue) * ((float)currentLevel/maxLevel);
+        }
     }
 }

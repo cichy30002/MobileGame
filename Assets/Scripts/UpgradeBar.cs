@@ -17,35 +17,35 @@ public class UpgradeBar : MonoBehaviour
     public UpgradeManager upgradeManager;
     public Stats stats;
 
-    private UpgradeManager.Upgradable _upgradable;
+    private UpgradeManager.Upgradeable _upgradeable;
     private bool _maxed;
     private void Start()
     {
         _maxed = false;
-        _upgradable = upgradeManager.GetUpgradable(statName);
-        priceText.text = _upgradable.startPrice.ToString();
+        _upgradeable = upgradeManager.GetUpgradeable(statName);
         nameText.text = statName;
-        for (int i = 0; i < _upgradable.maxLevel; i++)
+        for (int i = 0; i < _upgradeable.maxLevel; i++)
         {
             Instantiate(upgradeTile, Vector3.zero, Quaternion.identity, tiles.transform);
         }
-        slider.value = (float)_upgradable.currentLevel / (float)_upgradable.maxLevel;
         arrow.onClick.AddListener(UpdateBar);
     }
 
     private void Update()
     {
         if (_maxed) return;
-        arrow.interactable = stats.SpareParts >= _upgradable.currentPrice;
+        priceText.text = _upgradeable.currentPrice.ToString();
+        slider.value = (float)_upgradeable.currentLevel / (float)_upgradeable.maxLevel;
+        arrow.interactable = stats.SpareParts >= _upgradeable.currentPrice;
     }
 
     private void UpdateBar()
     {
         if (_maxed) return;
-        _upgradable = upgradeManager.GetUpgradable(statName);
-        slider.value = (float)_upgradable.currentLevel / (float)_upgradable.maxLevel;
-        priceText.text = _upgradable.currentPrice.ToString();
-        if (_upgradable.currentLevel == _upgradable.maxLevel)
+        _upgradeable = upgradeManager.GetUpgradeable(statName);
+        slider.value = (float)_upgradeable.currentLevel / (float)_upgradeable.maxLevel;
+        priceText.text = _upgradeable.currentPrice.ToString();
+        if (_upgradeable.currentLevel == _upgradeable.maxLevel)
         {
             _maxed = true;
             priceText.text = "MAX";

@@ -7,16 +7,20 @@ using TMPro;
 
 public class Stats : MonoBehaviour
 {
-    public float startFuel = 100f;
+    public UpgradeManager upgradeManager;
     public float maxFuel = 100f;
     public float fuelCons = 1f;
-    public float startHp = 100f;
     public float maxHp = 100f;
+    public float baseSpeed = 50f;
+    public float boostCooldown = 3f;
+    public float boostTime = 1f;
+    public float boostPower = 0.5f;
     public Slider fuelBar;
     public Slider healthBar;
     public TMP_Text scoreText;
     public TMP_Text sparePartsCounter;
-
+    [HideInInspector] public int highScore;
+    
     private float _hp;
     private float _fuel;
     private int _points;
@@ -65,14 +69,19 @@ public class Stats : MonoBehaviour
             sparePartsCounter.text = _spareParts.ToString();
         }
     }
-    private void Start()
+    public void SetStats()
     {
+        maxFuel = upgradeManager.GetUpgradeable("Tank Size").Value();
+        maxHp = upgradeManager.GetUpgradeable("Health").Value();
+        baseSpeed = upgradeManager.GetUpgradeable("Speed").Value();
+        boostPower = upgradeManager.GetUpgradeable("Boost Power").Value(); 
+        boostTime = upgradeManager.GetUpgradeable("Boost Time").Value();
+        boostCooldown = boostTime * 3f;
         healthBar.maxValue = maxHp;
         fuelBar.maxValue = maxFuel;
-        Fuel = startFuel;
-        Hp = startHp;
+        Fuel = maxFuel;
+        Hp = maxHp;
         Points = 0;
-        SpareParts = 20;
         _gameOver = false;
     }
 
