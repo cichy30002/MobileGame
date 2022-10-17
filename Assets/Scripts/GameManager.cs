@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour
     public float gameOverVFXTime = 3f;
     public Image gameOverPanel;
     public TMP_Text gameOverText;
-
+    private Stats _stats;
     private void Start()
     {
+        _stats = FindObjectOfType<Stats>();
         if (SceneManager.GetActiveScene().name == "Game")
         {
             Load();
@@ -52,13 +53,25 @@ public class GameManager : MonoBehaviour
         StartCoroutine(AlphaVFX());
     }
 
+    private void ResetGameOverVFX()
+    {
+        CancelInvoke(nameof(BackToMenu));
+        _stats.SetGameOver(false);
+        gameOverPanel.gameObject.SetActive(false);
+    }
     private IEnumerator AlphaVFX()
     {
         var ticks = (int)(gameOverVFXTime * 10);
         Color panelColor = gameOverPanel.color;
         Color textColor = gameOverText.color;
+        
         for (int i = 0; i < ticks; i++)
         {
+            if (_stats.Fuel > 0.1f && _stats.Hp > 0.1f) 
+            {
+                ResetGameOverVFX();
+                break;
+            }
             panelColor.a = (float)i / ticks;
             textColor.a = (float)i / ticks;
             gameOverPanel.color = panelColor;

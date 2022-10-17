@@ -15,10 +15,13 @@ public class Stats : MonoBehaviour
     public float boostCooldown = 3f;
     public float boostTime = 1f;
     public float boostPower = 0.5f;
+    public float radarRange = 20f;
+    public LayerMask layerMask;
     public Slider fuelBar;
     public Slider healthBar;
     public TMP_Text scoreText;
     public TMP_Text sparePartsCounter;
+    public SpriteRenderer fuelPointerSpriteRenderer;
     [HideInInspector] public int highScore;
     
     private float _hp;
@@ -83,18 +86,69 @@ public class Stats : MonoBehaviour
         Hp = maxHp;
         Points = 0;
         _gameOver = false;
+        fuelPointerSpriteRenderer.gameObject.SetActive(upgradeManager.GetUpgradeable("Radar").currentLevel >= 1);
     }
 
     private void GameOver()
     {
         if (_gameOver) return;
         _gameOver = true;
-        Debug.Log("game over");
         FindObjectOfType<GameManager>().GameOver();
     }
 
+    public void SetGameOver(bool value)
+    {
+        _gameOver = value;
+    }
     private void ExplosionVFX()
     {
         Debug.Log("boom");
+    }
+
+    private void Update()
+    {
+        SetFuelPointer();
+    }
+
+    private void SetFuelPointer()
+    {
+        Color pointerColor;
+        Transform barrel = FindClosestBarrel();
+        if (barrel == default)
+        {
+            pointerColor = fuelPointerSpriteRenderer.color;
+            pointerColor.a = 0f;
+            fuelPointerSpriteRenderer.color = pointerColor;
+            return;
+        }
+        Vector2 dir = barrel.position - transform.position;
+        pointerColor = fuelPointerSpriteRenderer.color;
+        pointerColor.a = 1f - 2f / dir.magnitude;
+        fuelPointerSpriteRenderer.color = pointerColor;
+        dir.Normalize();
+        Transform pointerTransport = fuelPointerSpriteRenderer.transform;
+        pointerTransport.position = new Vector2(transform.position.x + (dir.x), transform.position.y + (dir.y));
+        pointerTransport.up = barrel.position - pointerTransport.position;
+    }
+
+    private Transform FindClosestBarrel()
+    {
+        Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, radarRange, layerMask);
+        Transform closestBarrelInRange = default;
+        float minDistance = 99999f;
+        foreach (var objectInRange in objectsInRange)
+        {
+            if (objectInRange.gameObject.CompareTag("Barrel"))
+            {
+                float distanceToObject = Vector2.Distance(transform.position, objectInRange.transform.position);
+                if (distanceToObject < minDistance)
+                {
+                    closestBarrelInRange = objectInRange.transform;
+                    minDistance = distanceToObject;
+                }
+            }
+        }
+
+        return closestBarrelInRange;
     }
 }
