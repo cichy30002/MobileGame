@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public UpgradeManager upgradeManager;
     public float gameOverVFXTime = 3f;
-    public Image gameOverPanel;
+    public GameObject gameOver;
     public TMP_Text gameOverText;
     private Stats _stats;
     private void Start()
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Save();
-        GameOverVFX();
+        gameOver.SetActive(true);
         Invoke(nameof(BackToMenu), gameOverVFXTime);
     }
     public void BackToMenu()
@@ -47,38 +47,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    private void GameOverVFX()
-    {
-        gameOverPanel.gameObject.SetActive(true);
-        StartCoroutine(AlphaVFX());
-    }
-
-    private void ResetGameOverVFX()
-    {
-        CancelInvoke(nameof(BackToMenu));
-        _stats.SetGameOver(false);
-        gameOverPanel.gameObject.SetActive(false);
-    }
-    private IEnumerator AlphaVFX()
-    {
-        var ticks = (int)(gameOverVFXTime * 10);
-        Color panelColor = gameOverPanel.color;
-        Color textColor = gameOverText.color;
-        
-        for (int i = 0; i < ticks; i++)
-        {
-            if (_stats.Fuel > 0.1f && _stats.Hp > 0.1f) 
-            {
-                ResetGameOverVFX();
-                break;
-            }
-            panelColor.a = (float)i / ticks;
-            textColor.a = (float)i / ticks;
-            gameOverPanel.color = panelColor;
-            gameOverText.color = textColor;
-            yield return new WaitForSeconds(0.07f);
-        }
-    }
+    
 
     private void Save()
     {

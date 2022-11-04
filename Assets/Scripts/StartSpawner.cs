@@ -20,7 +20,7 @@ public class StartSpawner : MonoBehaviour
     private void Start()
     {
         CalculatePlayerZone();
-        FillPlayerZone();
+        //FillPlayerZone();
         InvokeRepeating(nameof(CalculatePlayerZone),0.2f,0.2f);
     }
     

@@ -12,8 +12,6 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         CalculatePrices();
-
-        Time.timeScale = 0f;
     }
 
     public void CalculatePrices()
