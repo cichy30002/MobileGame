@@ -16,8 +16,13 @@ public class StartSpawner : MonoBehaviour
     private float _playerZoneHeight;
     private const float PlayerZoneThreshold = 1.2f;
     private const float PlayerThreshold = 3f;
-
     private void Start()
+    {
+        GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gm.startGame.AddListener(StartGame);
+    }
+
+    private void StartGame()
     {
         CalculatePlayerZone();
         //FillPlayerZone();

@@ -10,7 +10,7 @@ public class Barrel : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             Stats stats = col.gameObject.GetComponent<Stats>();
-            stats.Fuel = stats.maxFuel;
+            stats.FillFuelTank();
             Destroy(gameObject);
         }
     }

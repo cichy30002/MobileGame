@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform rocket;
-    private const float SmoothTime = 0.45f;
+    [SerializeField] private float SmoothTime = 0.45f;
     private Vector3 _velocity = Vector3.zero;
     private readonly Vector3 _offset = new Vector3(0f, 0f, -10f);
 

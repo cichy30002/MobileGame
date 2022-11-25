@@ -5,17 +5,36 @@ using UnityEngine;
 
 public class PanelSlide : MonoBehaviour
 {
-    public void Show(float delay)
+    private RectTransform _rectTransform;
+    private void Start()
     {
-        Invoke(nameof(TweenIn),delay);
+        _rectTransform = gameObject.GetComponent<RectTransform>();
+    }
+
+    public void ShowFromRight(float delay)
+    {
+        Invoke(nameof(TweenInX),delay);
         
     }
-    private void TweenIn()
+    private void TweenInX()
     {
-        LeanTween.moveX(gameObject, 1200f, 1f).setEaseOutElastic();
+        LeanTween.moveX(_rectTransform, 0f, 1f).setEaseOutElastic();
     }
-    public void Close()
+    public void CloseToRight()
     {
-        LeanTween.moveX(gameObject, 5000f, 0.7f).setEaseInOutBack();
+        LeanTween.moveX(_rectTransform, 1000f, 0.7f).setEaseInOutBack();
+    }
+    public void ShowFromBottom(float delay)
+    {
+        Invoke(nameof(TweenInY),delay);
+        
+    }
+    private void TweenInY()
+    {
+        LeanTween.moveY(_rectTransform, 0f, 1f).setEaseOutElastic();
+    }
+    public void CloseToBottom()
+    {
+        LeanTween.moveY(_rectTransform, -1000f, 0.7f).setEaseInOutBack();
     }
 }

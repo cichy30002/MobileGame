@@ -1,17 +1,14 @@
 using System;
-using System.Collections;
-using TMPro;
-using Unity.Mathematics;
-using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public UpgradeManager upgradeManager;
-    public float gameOverVFXTime = 3f;
     public GameObject gameOver;
-    public TMP_Text gameOverText;
+    public UnityEvent startGame;
+    
     private Stats _stats;
     private void Start()
     {
@@ -25,24 +22,24 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        
+        startGame.Invoke();
+    }
+    public void LoadGameScene()
+    {
         SceneManager.LoadScene("Game");
     }
 
-    public void ExitGame()
+    public void ExitApp()
     {
         Application.Quit();
-    }
-    public void ResetTimeScale()
-    {
-        Time.timeScale = 1f;
     }
     public void GameOver()
     {
         Save();
         gameOver.SetActive(true);
-        Invoke(nameof(BackToMenu), gameOverVFXTime);
     }
-    public void BackToMenu()
+    public void LoadMenuScene()
     {
         SceneManager.LoadScene("Menu");
     }
@@ -51,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetInt("highScore", Math.Max(upgradeManager.stats.highScore, upgradeManager.stats.Points));
+        PlayerPrefs.SetInt("highScore", Math.Max(upgradeManager.stats.HighScore, upgradeManager.stats.Points));
         PlayerPrefs.SetInt("spareParts", upgradeManager.stats.SpareParts);
         PlayerPrefs.SetInt("speedLevel", upgradeManager.GetUpgradeable("Speed").currentLevel);
         PlayerPrefs.SetInt("boostPowerLevel", upgradeManager.GetUpgradeable("Boost Power").currentLevel);
@@ -67,7 +64,7 @@ public class GameManager : MonoBehaviour
         if (!PlayerPrefs.HasKey("spareParts"))
         {
             upgradeManager.stats.SpareParts = 0;
-            upgradeManager.stats.highScore = 0;
+            upgradeManager.stats.HighScore = 0;
             upgradeManager.GetUpgradeable("Speed").currentLevel = 0;
             upgradeManager.GetUpgradeable("Boost Power").currentLevel = 0;
             upgradeManager.GetUpgradeable("Boost Time").currentLevel = 0;
@@ -77,7 +74,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         upgradeManager.stats.SpareParts = PlayerPrefs.GetInt("spareParts");
-        upgradeManager.stats.highScore = PlayerPrefs.GetInt("highScore");
+        upgradeManager.stats.HighScore = PlayerPrefs.GetInt("highScore");
         upgradeManager.GetUpgradeable("Speed").currentLevel = PlayerPrefs.GetInt("speedLevel");
         upgradeManager.GetUpgradeable("Boost Power").currentLevel = PlayerPrefs.GetInt("boostPowerLevel");
         upgradeManager.GetUpgradeable("Boost Time").currentLevel = PlayerPrefs.GetInt("boostTimeLevel");

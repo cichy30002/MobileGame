@@ -17,6 +17,11 @@ public class Spawner : MonoBehaviour
     private GameObject[] _randomUrn;
     private void Start()
     {
+        GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        gm.startGame.AddListener(StartGame);
+    }
+    private void StartGame()
+    {
         InvokeRepeating(nameof(CheckSpawn),0.1f,0.5f);
         MakeRandomUrn();
     }
