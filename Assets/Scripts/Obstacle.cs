@@ -1,16 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Obstacle : MonoBehaviour
 {
-    public float damage = 10f;
-    public float speed = 30f;
-    public Rigidbody2D rb;
-    public GameObject boomParticle;
-    public GameObject miniBoomParticle;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float speed = 30f;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject boomParticle;
+    [SerializeField] private GameObject miniBoomParticle;
 
     private Vector2 _dir;
 
@@ -18,8 +16,9 @@ public class Obstacle : MonoBehaviour
     {
         _dir = new Vector2(Random.Range(-1f,1f), Random.Range(-1f,1f));
         _dir.Normalize();
-        InvokeRepeating(nameof(ChangeDirection), 1f,1f);
         rb.angularVelocity = Random.Range(-6f, 6f);
+        
+        InvokeRepeating(nameof(ChangeDirection), 1f,1f);
     }
 
     private void Update()
@@ -36,13 +35,16 @@ public class Obstacle : MonoBehaviour
             stats.Hp -= damage;
             Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
         if (col.gameObject.CompareTag("Barrel"))
         {
             Instantiate(boomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);
             Destroy(col.gameObject);
             Destroy(gameObject);
         }
-
         if (col.gameObject.CompareTag("SpareParts") || col.gameObject.CompareTag("DNA"))
         {
             Instantiate(miniBoomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);

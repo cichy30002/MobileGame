@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FancyButton : MonoBehaviour
 {
-    public float delay = 0f;
+    [SerializeField] private float delay = 0f;
+    
     private RectTransform _rectTransform;
     private float _startX;
     private void Awake()

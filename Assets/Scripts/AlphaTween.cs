@@ -6,8 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class AlphaTween : MonoBehaviour
 {
-    public float time = 1f;
-    public float delay = 0f;
+    [SerializeField] private float time = 1f;
+    [SerializeField] private float delay = 0f;
 
     private CanvasGroup _canvasGroup;
     private void Awake()

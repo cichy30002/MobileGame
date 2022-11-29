@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Position pos;
-    public StartSpawner startSpawner;
-    public LayerMask layerMask;
-    public int minObjects = 10;
+    [SerializeField] private Position pos;
+    [SerializeField] private StartSpawner startSpawner;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private int minObjects = 10;
     
     private Vector2 _lowerLeft;
     private Vector2 _upperRight;
@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour
     private void StartGame()
     {
         InvokeRepeating(nameof(CheckSpawn),0.1f,0.5f);
-        MakeRandomUrn();
+        _randomUrn = startSpawner.MakeRandomUrn();
     }
 
     private void CheckSpawn()
@@ -39,28 +39,28 @@ public class Spawner : MonoBehaviour
         switch (pos)
         {
             case Position.Top:
-                _lowerLeft.x = startSpawner.playerZoneLowerLeft.x;
-                _lowerLeft.y = startSpawner.playerZoneUpperRight.y;
-                _upperRight.x = startSpawner.playerZoneUpperRight.x;
-                _upperRight.y = startSpawner.playerZoneUpperRight.y + Height;
+                _lowerLeft.x = startSpawner.PlayerZoneLowerLeft.x;
+                _lowerLeft.y = startSpawner.PlayerZoneUpperRight.y;
+                _upperRight.x = startSpawner.PlayerZoneUpperRight.x;
+                _upperRight.y = startSpawner.PlayerZoneUpperRight.y + Height;
                 break;
             case Position.Bot:
-                _lowerLeft.x = startSpawner.playerZoneLowerLeft.x;
-                _lowerLeft.y = startSpawner.playerZoneLowerLeft.y - Height;
-                _upperRight.x = startSpawner.playerZoneUpperRight.x;
-                _upperRight.y = startSpawner.playerZoneLowerLeft.y;
+                _lowerLeft.x = startSpawner.PlayerZoneLowerLeft.x;
+                _lowerLeft.y = startSpawner.PlayerZoneLowerLeft.y - Height;
+                _upperRight.x = startSpawner.PlayerZoneUpperRight.x;
+                _upperRight.y = startSpawner.PlayerZoneLowerLeft.y;
                 break;
             case Position.Left:
-                _lowerLeft.x = startSpawner.playerZoneLowerLeft.x - Width;
-                _lowerLeft.y = startSpawner.playerZoneLowerLeft.y - Height;
-                _upperRight.x = startSpawner.playerZoneLowerLeft.x;
-                _upperRight.y = startSpawner.playerZoneUpperRight.y + Height;
+                _lowerLeft.x = startSpawner.PlayerZoneLowerLeft.x - Width;
+                _lowerLeft.y = startSpawner.PlayerZoneLowerLeft.y - Height;
+                _upperRight.x = startSpawner.PlayerZoneLowerLeft.x;
+                _upperRight.y = startSpawner.PlayerZoneUpperRight.y + Height;
                 break;
             case Position.Right:
-                _lowerLeft.x = startSpawner.playerZoneUpperRight.x;
-                _lowerLeft.y = startSpawner.playerZoneLowerLeft.y - Height;
-                _upperRight.x = startSpawner.playerZoneUpperRight.x + Width;
-                _upperRight.y = startSpawner.playerZoneUpperRight.y + Height;
+                _lowerLeft.x = startSpawner.PlayerZoneUpperRight.x;
+                _lowerLeft.y = startSpawner.PlayerZoneLowerLeft.y - Height;
+                _upperRight.x = startSpawner.PlayerZoneUpperRight.x + Width;
+                _upperRight.y = startSpawner.PlayerZoneUpperRight.y + Height;
                 break;
             default:
                 break;
@@ -84,23 +84,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void MakeRandomUrn()
-    {
-        int count = 0;
-        foreach (StartSpawner.RandomSpawn spawn in startSpawner.spawns)
-        {
-            count += spawn.amount;
-        }
-        _randomUrn = new GameObject[count];
-        int i = 0;
-        foreach (StartSpawner.RandomSpawn spawn in startSpawner.spawns)
-        {
-            for (int j = 0; j < spawn.amount; j++)
-            {
-                _randomUrn[i++] = spawn.prefab;
-            }
-        }
-    }
+    
     private GameObject RandomObject()
     {
         return _randomUrn[Random.Range(0, _randomUrn.Length)];
@@ -116,7 +100,7 @@ public class Spawner : MonoBehaviour
         Gizmos.DrawWireCube(_center, _size);
     }
 
-    public enum Position
+    private enum Position
     {Top,
     Bot,
     Left,

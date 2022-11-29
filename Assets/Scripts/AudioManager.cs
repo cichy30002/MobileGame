@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource source;
-    public static AudioManager instance;
-    public AudioClip[] musicPlaylist;
+    [HideInInspector] public static AudioManager instance;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip[] musicPlaylist;
 
     private void Awake()
     {
@@ -18,7 +18,6 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             StartCoroutine(PlayMusic());
         }
-        
     }
 
     private void Update()

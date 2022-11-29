@@ -1,13 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
-    public Stats stats;
-    public List<Upgradeable> upgradeables;
+    [SerializeField] private Stats stats;
+    [SerializeField] private List<Upgradeable> upgradeables;
 
     private void Start()
     {

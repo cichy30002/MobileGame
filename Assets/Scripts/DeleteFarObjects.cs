@@ -6,7 +6,7 @@ public class DeleteFarObjects : MonoBehaviour
 {
     private Transform _rocket;
     private const float DistanceToDestroy = 25f;
-    void Start()
+    private void Start()
     {
         _rocket = GameObject.FindGameObjectWithTag("Player").transform;
         InvokeRepeating(nameof(CheckDistToPlayer),0.5f,1f);

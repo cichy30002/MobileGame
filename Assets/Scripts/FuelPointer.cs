@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FuelPointer : MonoBehaviour
@@ -70,7 +68,6 @@ public class FuelPointer : MonoBehaviour
                 }
             }
         }
-
         return closestBarrelInRange;
     }
 }

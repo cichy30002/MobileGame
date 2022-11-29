@@ -4,20 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DistanceAudio : MonoBehaviour
-{
-    public AudioSource source;
-    public float minDist = 1f;
-    public float maxDist = 20f;
-    private Transform _cameraTransform;
+{ 
+    [SerializeField] private AudioSource source;
+    [SerializeField] private float minDist = 1f;
+    [SerializeField] private float maxDist = 20f;
+    private Vector3 _cameraPosition;
     private void Start()
     {
-        _cameraTransform = Camera.main.transform;
+        _cameraPosition = Camera.main.transform.position;
     }
 
     private void Update()
     {
-        float dist = Vector2.Distance(new Vector2(_cameraTransform.position.x, _cameraTransform.position.y),
+        SetVolume();
+    }
+
+    private void SetVolume()
+    {
+        source.volume = CalculateVolume();
+    }
+
+    private float CalculateVolume()
+    {
+        float dist = Vector2.Distance(new Vector2(_cameraPosition.x, _cameraPosition.y),
             transform.position);
-        source.volume = (maxDist-dist) / (maxDist-minDist);
+        return (maxDist-dist) / (maxDist-minDist);
     }
 }

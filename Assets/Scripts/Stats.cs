@@ -4,8 +4,10 @@ using TMPro;
 
 public class Stats : MonoBehaviour
 {
-    public float fuelCons = 1f;
+    public float fuelCons = 3f;
+    public float fuelConsIdle = 1f;
     public float baseSpeed = 50f;
+    public float idleSpeed = 25f;
     public float boostCooldown = 3f;
     public float boostTime = 1f;
     public float boostPower = 0.5f;
@@ -128,8 +130,4 @@ public class Stats : MonoBehaviour
     {
         Fuel = _maxFuel;
     }
-
-    
-
-    
 }

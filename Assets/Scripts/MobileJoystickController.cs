@@ -1,23 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MobileJoystickController : MonoBehaviour
 {
-    public RectTransform joy;
-    public RectTransform stick;
-    public float minDistanceFromMiddle;
+    [SerializeField] private RectTransform joy;
+    [SerializeField] private RectTransform stick;
+    [SerializeField] private float minDistanceFromMiddle;
 
     [HideInInspector] public float horizontalAxis;
     [HideInInspector] public float verticalAxis;
+    
     private int _activeTouchID;
 
     private void Start()
     {
         _activeTouchID = -1;
-        
     }
 
     private void Update()
@@ -31,28 +28,35 @@ public class MobileJoystickController : MonoBehaviour
         {
             if (touch.fingerId == _activeTouchID)
             {
-                switch (touch.phase)
-                {
-                    case TouchPhase.Moved:
-                        MoveStick(touch.position);
-                        UpdateOutput(touch.position);
-                        break;
-                    case TouchPhase.Ended:
-                    case TouchPhase.Canceled:
-                        _activeTouchID = -1;
-                        stick.anchoredPosition = Vector3.zero;
-                        verticalAxis = 0f;
-                        horizontalAxis = 0f;
-                        break;
-                }
+                PerformTouches();
             }
-            else if (touch.phase == TouchPhase.Began && CloseToMiddle(touch) && _activeTouchID == -1)
+            else if (NewControlTouch(touch))
             {
                 _activeTouchID = touch.fingerId;
             }
-                    
         }
-        
+    }
+
+    private void PreformTouchPhases(Touch touch)
+    {
+        switch (touch.phase)
+        {
+            case TouchPhase.Moved:
+                MoveStick(touch.position);
+                UpdateOutput(touch.position);
+                break;
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                _activeTouchID = -1;
+                stick.anchoredPosition = Vector3.zero;
+                verticalAxis = 0f;
+                horizontalAxis = 0f;
+                break;
+        }
+    }
+    private bool NewControlTouch(Touch touch)
+    {
+        return touch.phase == TouchPhase.Began && CloseToMiddle(touch) && _activeTouchID == -1;
     }
 
     private void UpdateOutput(Vector2 position)

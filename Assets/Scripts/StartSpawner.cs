@@ -7,10 +7,10 @@ using Random = UnityEngine.Random;
 
 public class StartSpawner : MonoBehaviour
 {
-    public GameObject rocket;
-    public List<RandomSpawn> spawns;
-    public Vector2 playerZoneLowerLeft;
-    public Vector2 playerZoneUpperRight;
+    [SerializeField] private GameObject rocket;
+    [SerializeField] private List<RandomSpawn> spawns;
+    public Vector2 PlayerZoneLowerLeft{ get; private set; }
+    public Vector2 PlayerZoneUpperRight{ get; private set; }
     
     private float _playerZoneWidth;
     private float _playerZoneHeight;
@@ -39,8 +39,8 @@ public class StartSpawner : MonoBehaviour
         _playerZoneWidth = xHalfSize * 2f;
 
         Vector3 rocketPosition = rocket.transform.position;
-        playerZoneLowerLeft = new Vector2(rocketPosition.x - xHalfSize, rocketPosition.y - yHalfSize);
-        playerZoneUpperRight = new Vector2(rocketPosition.x + xHalfSize, rocketPosition.y + yHalfSize);
+        PlayerZoneLowerLeft = new Vector2(rocketPosition.x - xHalfSize, rocketPosition.y - yHalfSize);
+        PlayerZoneUpperRight = new Vector2(rocketPosition.x + xHalfSize, rocketPosition.y + yHalfSize);
     }
 
     private void FillPlayerZone()
@@ -52,8 +52,8 @@ public class StartSpawner : MonoBehaviour
                 Vector2 randomPosition = new Vector2();
                 do
                 {
-                    randomPosition.x = Random.Range(playerZoneLowerLeft.x, playerZoneUpperRight.x);
-                    randomPosition.y = Random.Range(playerZoneLowerLeft.y, playerZoneUpperRight.y);
+                    randomPosition.x = Random.Range(PlayerZoneLowerLeft.x, PlayerZoneUpperRight.x);
+                    randomPosition.y = Random.Range(PlayerZoneLowerLeft.y, PlayerZoneUpperRight.y);
                 } while (Vector2.Distance(randomPosition,rocket.transform.position) <= PlayerThreshold);
 
                 Instantiate(spawn.prefab, randomPosition, quaternion.identity);
@@ -65,10 +65,34 @@ public class StartSpawner : MonoBehaviour
         Gizmos.color = new Color(0, 1, 0, 1);
         Gizmos.DrawWireCube(rocket.transform.position,new Vector3(_playerZoneWidth,_playerZoneHeight));
     }
-    
+    public GameObject[] MakeRandomUrn()
+    {
+        var randomUrn = new GameObject[CalculateUrnSize()];
+        int i = 0;
+        foreach (RandomSpawn spawn in spawns)
+        {
+            for (int j = 0; j < spawn.amount; j++)
+            {
+                randomUrn[i++] = spawn.prefab;
+            }
+        }
+        return randomUrn;
+    }
+
+    private int CalculateUrnSize()
+    {
+        int count = 0;
+        foreach (RandomSpawn spawn in spawns)
+        {
+            count += spawn.amount;
+        }
+        return count;
+    }
+
     [Serializable]public struct RandomSpawn
     {
         public GameObject prefab;
         public int amount;
     }
+    
 }
