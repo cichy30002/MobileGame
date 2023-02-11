@@ -19,6 +19,9 @@ public class Stats : MonoBehaviour
     [SerializeField] private TMP_Text sparePartsCounter;
     [SerializeField] private TMP_Text sparePartsCounterUpgrades;
     [SerializeField] private TMP_Text highScoreText;
+    [SerializeField] private TMP_Text alertText;
+    [SerializeField] private TMP_Text alertIconFuel;
+    [SerializeField] private TMP_Text alertIconHealth;
     
     private float _hp;
     private float _maxHp = 100f;
@@ -29,6 +32,7 @@ public class Stats : MonoBehaviour
     private int _highScore;
     private bool _gameOver;
     private bool _gameStarted;
+    private GameManager _gm;
     public float Hp
     {
         get => _hp;
@@ -41,6 +45,7 @@ public class Stats : MonoBehaviour
                 GameOver();
                 ExplosionVFX();
             }
+            UpdateAlerts();
         }
     }
     public float Fuel
@@ -51,6 +56,7 @@ public class Stats : MonoBehaviour
             _fuel = value;
             fuelBar.value = _fuel;
             if(_fuel <= 0f) GameOver();
+            UpdateAlerts();
         } 
     }
     public int Points
@@ -87,8 +93,8 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         _gameStarted = false;
-        GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        gm.startGame.AddListener(StartGame);
+        _gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _gm.startGame.AddListener(StartGame);
         SetStats();
     }
 
@@ -118,16 +124,28 @@ public class Stats : MonoBehaviour
     {
         if (_gameOver) return;
         _gameOver = true;
-        FindObjectOfType<GameManager>().GameOver();
+        _gm.GameOver();
     }
     
     private void ExplosionVFX()
     {
+        Camera.main.GetComponent<CameraMovement>().Shake(0.3f);
         Debug.Log("boom");
     }
 
     public void FillFuelTank()
     {
         Fuel = _maxFuel;
+    }
+
+    private void UpdateAlerts()
+    {
+        var alertMessage = "";
+        if (Fuel <= _maxFuel * 0.2f) alertMessage += "Critical Fuel Level ";
+        if (Hp <= _maxHp * 0.2f) alertMessage += "Critical Health Level";
+        alertText.text = alertMessage;
+        
+        alertIconFuel.gameObject.SetActive(Fuel <= _maxFuel * 0.2f);
+        alertIconHealth.gameObject.SetActive(Hp <= _maxHp * 0.2f);
     }
 }

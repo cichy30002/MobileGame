@@ -18,9 +18,9 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        gm.startGame.AddListener(StartGame);
+        gm.startPlaying.AddListener(StartPlaying);
     }
-    private void StartGame()
+    private void StartPlaying()
     {
         InvokeRepeating(nameof(CheckSpawn),0.1f,0.5f);
         _randomUrn = startSpawner.MakeRandomUrn();
@@ -87,7 +87,7 @@ public class Spawner : MonoBehaviour
     
     private GameObject RandomObject()
     {
-        return _randomUrn[Random.Range(0, _randomUrn.Length)];
+        return _randomUrn.Length == 0 ? default : _randomUrn[Random.Range(0, _randomUrn.Length)];
     }
 
     private Vector2 RandomPositionInZone()

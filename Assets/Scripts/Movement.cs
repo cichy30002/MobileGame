@@ -9,27 +9,20 @@ public class Movement : MonoBehaviour
     [SerializeField] private MobileJoystickController controller;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Stats stats;
-    [SerializeField] private ParticleSystem fireParticle;
-    [SerializeField] private float emissionMultiplier = 1.5f;
-    
+    [SerializeField] private MovementEffects movementEffects;
     
     private float _speed = 50f;
     private float _idleSpeed = 10f;
     private float _cooldownTime = 0f;
-    private ParticleSystem.EmissionModule _emission;
-    private float _startEmission;
     private bool _idle;
 
     private void Start()
     {
-        _emission = fireParticle.emission;
-        _startEmission = _emission.rateOverTime.constant;
         _idle = true;
-
         Invoke(nameof(ResetSpeed),0.05f);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         HandleMovement();
     }
@@ -81,7 +74,7 @@ public class Movement : MonoBehaviour
         _cooldownTime = Time.time + stats.boostCooldown;
         _speed = stats.baseSpeed * (1f + stats.boostPower);
         //boost fx
-        _emission.rateOverTime = _startEmission*emissionMultiplier;
+        movementEffects.SetBoostFX(true);
 
         Invoke(nameof(ResetSpeed), stats.boostTime);
     }
@@ -92,7 +85,8 @@ public class Movement : MonoBehaviour
         _speed = stats.baseSpeed;
         _idleSpeed = stats.idleSpeed;
         //reset fx
-        _emission.rateOverTime = _startEmission;
+        movementEffects.SetBoostFX(false);
     }
+
     
 }

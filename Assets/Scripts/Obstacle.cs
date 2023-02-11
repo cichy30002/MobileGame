@@ -6,6 +6,7 @@ public class Obstacle : MonoBehaviour
 {
     [SerializeField] private float damage = 10f;
     [SerializeField] private float speed = 30f;
+    [SerializeField] private float shakePower = 0.3f;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject boomParticle;
     [SerializeField] private GameObject miniBoomParticle;
@@ -33,6 +34,7 @@ public class Obstacle : MonoBehaviour
             Instantiate(miniBoomParticle, (col.transform.position + transform.position) / 2, Quaternion.identity);
             Stats stats = col.gameObject.GetComponent<Stats>();
             stats.Hp -= damage;
+            Camera.main.GetComponent<CameraMovement>().Shake(shakePower);
             Destroy(gameObject);
         }
     }

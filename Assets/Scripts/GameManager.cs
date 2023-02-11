@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private GameObject gameOver;
-    
+
+    public UnityEvent startPlaying;
     public UnityEvent startGame;
-    
+
     private Stats _stats;
     private void Start()
     {
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         startGame.Invoke();
+    }
+
+    public void StartPlaying()
+    {
+        startPlaying.Invoke();
     }
     public void LoadGameScene()
     {

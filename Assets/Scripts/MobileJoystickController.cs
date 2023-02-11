@@ -28,7 +28,7 @@ public class MobileJoystickController : MonoBehaviour
         {
             if (touch.fingerId == _activeTouchID)
             {
-                PerformTouches();
+                PreformTouchPhases(touch);
             }
             else if (NewControlTouch(touch))
             {
