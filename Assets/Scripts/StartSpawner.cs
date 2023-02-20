@@ -19,7 +19,7 @@ public class StartSpawner : MonoBehaviour
     private void Start()
     {
         GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        gm.startGame.AddListener(StartGame);
+        gm.startPlaying.AddListener(StartGame);
     }
 
     private void StartGame()

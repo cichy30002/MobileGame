@@ -9523,7 +9523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 3
-  delay: 0
+  delay: 2
 --- !u!225 &1003128172
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -11112,6 +11112,7 @@ MonoBehaviour:
   boostTime: 1
   boostPower: 0.5
   upgradeManager: {fileID: 931710205}
+  movementEffects: {fileID: 1326588334}
   fuelBar: {fileID: 1403808947}
   healthBar: {fileID: 2117840534}
   scoreText: {fileID: 1318582616}
@@ -11136,6 +11137,8 @@ MonoBehaviour:
   launchSpeed: 5
   rb: {fileID: 1326588332}
   fireParticle: {fileID: 699649275}
+  boomParticle: {fileID: 1962458542559999119, guid: aaf27e70689a61446a70e451f6bc8da0, type: 3}
+  noFuelParticle: {fileID: 8492593046059295760, guid: de6f7547a5bc8054794f6717a6ee2171, type: 3}
   boostEmissionMultiplier: 1.5
   launchText: {fileID: 1771445512}
 --- !u!1 &1371150943
@@ -12213,7 +12216,7 @@ MonoBehaviour:
   - prefab: {fileID: 2980597053922721472, guid: fd1edae28c15cae4b91553d064b6fd71, type: 3}
     amount: 20
   - prefab: {fileID: 9039573669708980944, guid: cf145cf3bf4b04641b6fd87f8b97ebec, type: 3}
-    amount: 65
+    amount: 20
   - prefab: {fileID: 8480683370409056835, guid: 64e11ba8ded948347abdbbab27a55669, type: 3}
     amount: 10
   - prefab: {fileID: 3284543564067342234, guid: ee0804ce85548df408e88269e0d81463, type: 3}

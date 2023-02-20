@@ -13,6 +13,7 @@ public class Stats : MonoBehaviour
     public float boostPower = 0.5f;
     
     [SerializeField] private UpgradeManager upgradeManager;
+    [SerializeField] private MovementEffects movementEffects;
     [SerializeField] private Slider fuelBar;
     [SerializeField] private Slider healthBar;
     [SerializeField] private TMP_Text scoreText;
@@ -43,7 +44,7 @@ public class Stats : MonoBehaviour
             if (_hp <= 0f)
             {
                 GameOver();
-                ExplosionVFX();
+                movementEffects.ExplosionVFX();
             }
             UpdateAlerts();
         }
@@ -55,7 +56,11 @@ public class Stats : MonoBehaviour
         {
             _fuel = value;
             fuelBar.value = _fuel;
-            if(_fuel <= 0f) GameOver();
+            if (_fuel <= 0f)
+            {
+                GameOver();
+                movementEffects.NoFuelVFX();
+            }
             UpdateAlerts();
         } 
     }
@@ -125,12 +130,6 @@ public class Stats : MonoBehaviour
         if (_gameOver) return;
         _gameOver = true;
         _gm.GameOver();
-    }
-    
-    private void ExplosionVFX()
-    {
-        Camera.main.GetComponent<CameraMovement>().Shake(0.3f);
-        Debug.Log("boom");
     }
 
     public void FillFuelTank()

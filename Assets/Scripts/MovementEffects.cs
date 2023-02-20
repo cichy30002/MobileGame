@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MovementEffects : MonoBehaviour
@@ -9,6 +10,8 @@ public class MovementEffects : MonoBehaviour
     [SerializeField] private float launchSpeed = 5f;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private ParticleSystem fireParticle;
+    [SerializeField] private ParticleSystem boomParticle;
+    [SerializeField] private ParticleSystem noFuelParticle;
     [SerializeField] private float boostEmissionMultiplier = 1.5f;
     [SerializeField] private TMP_Text launchText;
     
@@ -59,5 +62,19 @@ public class MovementEffects : MonoBehaviour
             rb.velocity = Vector2.Lerp(Vector2.zero, Vector2.up,i/accelerationTime) * launchSpeed;
             yield return null;
         }
+    }
+    public void ExplosionVFX()
+    {
+        Camera.main.GetComponent<CameraMovement>().Shake(0.3f);
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        Instantiate(boomParticle, transform.position, Quaternion.identity);
+        //play sound
+    }
+
+    public void NoFuelVFX()
+    {
+        Instantiate(noFuelParticle,fireParticle.transform.position, quaternion.identity, gameObject.transform);
+        fireParticle.Stop();
+        //play sound
     }
 }
