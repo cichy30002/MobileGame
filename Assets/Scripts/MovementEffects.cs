@@ -67,6 +67,7 @@ public class MovementEffects : MonoBehaviour
     {
         Camera.main.GetComponent<CameraMovement>().Shake(0.3f);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        fireParticle.Stop();
         Instantiate(boomParticle, transform.position, Quaternion.identity);
         //play sound
     }
