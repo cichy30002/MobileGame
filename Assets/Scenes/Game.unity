@@ -13536,6 +13536,7 @@ MonoBehaviour:
     m_Bits: 64
   fuelPointerSpriteRenderer: {fileID: 1834723976}
   upgradeManager: {fileID: 931710205}
+  rocketTransform: {fileID: 1326588329}
 --- !u!1 &1891640115
 GameObject:
   m_ObjectHideFlags: 0

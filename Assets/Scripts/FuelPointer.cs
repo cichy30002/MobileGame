@@ -6,6 +6,7 @@ public class FuelPointer : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private SpriteRenderer fuelPointerSpriteRenderer;
     [SerializeField] private UpgradeManager upgradeManager;
+    [SerializeField] private Transform rocketTransform;
     private bool _gameStarted;
     private void Start()
     {
@@ -39,9 +40,8 @@ public class FuelPointer : MonoBehaviour
 
     private void SetPointerPosition(Vector2 dir, Transform barrel)
     {
-        Transform pointerTransport = fuelPointerSpriteRenderer.transform;
-        pointerTransport.position = new Vector2(transform.position.x + (dir.x), transform.position.y + (dir.y));
-        pointerTransport.up = barrel.position - pointerTransport.position;
+        transform.position = new Vector2(rocketTransform.position.x + (dir.x), rocketTransform.position.y + (dir.y));
+        transform.up = barrel.position - transform.position;
     }
 
     private void SetPointerAlpha(float alpha)

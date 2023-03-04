@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Little rocket
+  m_text: Little Rocket
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2ea2e9f2d2efb214dad24e44ffd11039, type: 2}
   m_sharedMaterial: {fileID: 6296321657894945246, guid: 2ea2e9f2d2efb214dad24e44ffd11039, type: 2}
