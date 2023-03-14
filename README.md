@@ -7,3 +7,5 @@ https://github.com/cichy30002/MobileGame/blob/84bb13699ec6ebbf845ee9cc0257d51d1f
 ### Unity skills
 This game for sure looks better than my previous projects (here also I have made all the sprites myself). I improved on making a UI, I'm quite proud of this one. I used the very nice package LeanTween to animate it in simple ways, but the effect is really good. There are a lot of particles which also improve visuals. To make one of them I prepared my first shader using tutorials.\
 As stated in the beginning, that was my first mobile game but I managed to understand touch screen controls. Joystick that is used in this game is coded by me and works perfectly. I could've used some joystick asset but this way I understood how Unity handles mobile input better and had more control over how it works in my game.
+### Try it
+You can download game on android [here.](https://cichy30002.itch.io/little-rocket)
